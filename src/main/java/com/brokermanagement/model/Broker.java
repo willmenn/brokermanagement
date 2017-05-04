@@ -3,6 +3,7 @@ package com.brokermanagement.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.SequenceGenerator;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Builder
 @Entity
