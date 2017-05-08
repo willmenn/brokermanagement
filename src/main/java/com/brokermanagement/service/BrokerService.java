@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class BrokerService {
 
-    private BrokerRepository repository;
+    private BrokerRepository brokerRepository;
 
     @Autowired
-    public BrokerService(BrokerRepository repository) {
-        this.repository = repository;
+    public BrokerService(BrokerRepository brokerRepository) {
+        this.brokerRepository = brokerRepository;
     }
 
     public Broker getBroker(Integer id) {
-        return repository.findOne(id);
+        return brokerRepository.findById(id);
     }
 
     public Broker createBroker(Broker broker) {
-        return repository.save(broker);
+        return brokerRepository.save(broker);
     }
 }
