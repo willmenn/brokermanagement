@@ -1,5 +1,6 @@
 package com.brokermanagement.service;
 
+import com.brokermanagement.exception.BrokerNotFound;
 import com.brokermanagement.model.Broker;
 import com.brokermanagement.repository.BrokerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,16 @@ public class BrokerService {
 
     public Broker createBroker(Broker broker) {
         return brokerRepository.save(broker);
+    }
+
+    public void delete(String id) {
+        brokerRepository.delete(id);
+    }
+
+    public Broker updateBroker(String id, Broker broker) {
+        if (brokerRepository.exists(id)) {
+            return brokerRepository.save(Broker.builder().build());
+        }
+        throw new BrokerNotFound("Broker Not Found", id);
     }
 }
