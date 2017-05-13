@@ -15,8 +15,8 @@ public class BrokerService {
         this.brokerRepository = brokerRepository;
     }
 
-    public Broker getBroker(Integer id) {
-        return brokerRepository.findById(id);
+    public Broker getBroker(String id) {
+        return brokerRepository.findOne(id);
     }
 
     public Broker createBroker(Broker broker) {

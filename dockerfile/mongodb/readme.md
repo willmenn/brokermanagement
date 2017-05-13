@@ -1,0 +1,2 @@
+
+### Command to create a new database to this project `'mongo admin --eval "db.getSiblingDB(\"brokermanagement\").createUser({user: \"brokermanagement\", pwd: \"brokermanagement\", roles: [\"dbAdmin\"]})"'`
