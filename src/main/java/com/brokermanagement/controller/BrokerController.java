@@ -90,7 +90,7 @@ public class BrokerController {
     }
 
     @NoArgsConstructor
-    static class Resource extends ResourceSupport {
+     public static class Resource extends ResourceSupport {
 
     }
 

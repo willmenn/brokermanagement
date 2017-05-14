@@ -6,7 +6,6 @@ import com.brokermanagement.repository.BrokerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -37,8 +36,13 @@ public class BrokerService {
 
     public Broker updateBroker(String id, Broker broker) {
         if (brokerRepository.exists(id)) {
-            return brokerRepository.save(Broker.builder().build());
+            return brokerRepository.save(Broker.builder()
+                    .name(broker.getName())
+                    .manager(broker.getManager())
+                    .preference(broker.getPreference())
+                    .build());
+        } else {
+            throw new BrokerNotFound("Broker Not Found", id);
         }
-        throw new BrokerNotFound("Broker Not Found", id);
     }
 }
