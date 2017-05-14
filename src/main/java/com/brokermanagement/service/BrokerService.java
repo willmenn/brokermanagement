@@ -6,6 +6,9 @@ import com.brokermanagement.repository.BrokerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
+
 @Service
 public class BrokerService {
 
@@ -18,6 +21,10 @@ public class BrokerService {
 
     public Broker getBroker(String id) {
         return brokerRepository.findOne(id);
+    }
+
+    public List<Broker> getBrokersByManager(String managerName) {
+        return brokerRepository.findByManager(managerName);
     }
 
     public Broker createBroker(Broker broker) {
