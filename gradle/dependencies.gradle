@@ -27,6 +27,9 @@ dependencies {
     compile('com.google.guava:guava:18.0')
     compileOnly('org.projectlombok:lombok')
 
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.0'
+
     testCompile('org.codehaus.groovy:groovy-all')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
