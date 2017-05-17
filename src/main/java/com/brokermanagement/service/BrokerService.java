@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public class BrokerService {
 
+    private static final String BROKER_NOT_FOUND = "Broker Not Found";
     private BrokerRepository brokerRepository;
 
     @Autowired
@@ -42,7 +43,7 @@ public class BrokerService {
                     .preference(broker.getPreference())
                     .build());
         } else {
-            throw new BrokerNotFound("Broker Not Found", id);
+            throw new BrokerNotFound(BROKER_NOT_FOUND, id);
         }
     }
 }

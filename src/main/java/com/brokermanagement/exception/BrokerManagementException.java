@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class BrokerManagementException extends RuntimeException {
-    private String brokerId;
+    private String id;
 
-    public BrokerManagementException(String message, String brokerId) {
+    public BrokerManagementException(String message, String id) {
         super(message);
-        this.brokerId = brokerId;
+        this.id = id;
     }
 }

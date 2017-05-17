@@ -1,9 +1,8 @@
 package com.brokermanagement.controller;
 
-
-import com.brokermanagement.exception.BrokerManagementException;
-import com.brokermanagement.model.Broker;
-import com.brokermanagement.service.BrokerService;
+import com.brokermanagement.exception.SellsManagementException;
+import com.brokermanagement.model.Sells;
+import com.brokermanagement.service.SellsService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -30,61 +29,62 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
-public class BrokerController {
+public class SellsController {
 
-    private BrokerService service;
+    private SellsService service;
 
     @Autowired
-    public BrokerController(BrokerService service) {
+    public SellsController(SellsService service) {
         this.service = service;
     }
 
-    @RequestMapping(value = "/broker/{id}", method = GET)
+    @RequestMapping(value = "/sells/{id}", method = GET)
     @ResponseStatus(OK)
-    public Broker getBroker(@PathVariable("id") String id) {
-        return service.getBroker(id);
+    public Sells getSells(@PathVariable("id") String id) {
+        return service.getSellsId(id);
     }
 
-    @RequestMapping(value = "/brokers/manager/{name}", method = GET)
+    @RequestMapping(value = "/sell/manager/{name}", method = GET)
     @ResponseStatus(OK)
-    public List<Broker> getBrokersByManager(@PathVariable("name") String name) {
-        return service.getBrokersByManager(name);
+    public List<Sells> getSellssByManager(@PathVariable("name") String name) {
+        return service.getSellsByManager(name);
     }
 
-    @RequestMapping(value = "/broker", method = POST, consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/sell", method = POST, consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public Resource createBroker(@RequestBody Broker broker) {
-        Broker brokerResponse = service.createBroker(broker);
-        Resource resource = createResource(brokerResponse.getBrokerId());
+    public SellsController.Resource createSells(@RequestBody Sells broker) {
+        Sells brokerResponse = service.createSells(broker);
+        SellsController.Resource resource = createResource(brokerResponse.getId());
         return resource;
     }
 
-    @RequestMapping(value = "/broker/{id}", method = DELETE)
+    @RequestMapping(value = "/sell/{id}", method = DELETE)
     @ResponseStatus(OK)
-    public void deleteBroker(@PathVariable("id") String id) {
+    public void deleteSells(@PathVariable("id") String id) {
         service.delete(id);
     }
 
-    @RequestMapping(value = "/broker/{id}", method = PUT, consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/sell/{id}", method = PUT, consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public Resource updateBroker(@PathVariable("id") String id, @RequestBody Broker broker) {
-        Broker updateBroker = service.updateBroker(id, broker);
-        return createResource(updateBroker.getBrokerId());
+    public SellsController.Resource updateSells(@PathVariable("id") String id, @RequestBody Sells broker) {
+        Sells updateSells = service.updateSells(id, broker);
+        return createResource(updateSells.getId());
     }
 
-    @ExceptionHandler(BrokerManagementException.class)
+
+    @ExceptionHandler(SellsManagementException.class)
     @ResponseStatus(NOT_FOUND)
-    public ErrorMessage brokerManagementExceptionHandler(BrokerManagementException exception) {
-        return ErrorMessage.builder()
+    public SellsController.ErrorMessage brokerManagementExceptionHandler(SellsManagementException exception) {
+        return SellsController.ErrorMessage.builder()
                 .brokerId(exception.getId())
                 .message(exception.getMessage())
                 .build();
     }
 
-    private Resource createResource(String brokerId) {
-        Resource resource = new Resource();
-        resource.add(linkTo(methodOn(BrokerController.class)
-                .getBroker(brokerId))
+    private SellsController.Resource createResource(String sellsId) {
+        SellsController.Resource resource = new SellsController.Resource();
+        resource.add(linkTo(methodOn(SellsController.class)
+                .getSells(sellsId))
                 .withSelfRel());
         return resource;
     }
