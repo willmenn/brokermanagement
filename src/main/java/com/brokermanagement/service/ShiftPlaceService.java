@@ -6,6 +6,8 @@ import com.brokermanagement.repository.ShiftPlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShiftPlaceService {
 
@@ -18,6 +20,10 @@ public class ShiftPlaceService {
 
     public ShiftPlace getShiftPlace(String id) {
         return repository.findOne(id);
+    }
+
+    public List<ShiftPlace> getShiftPlaceByManagersName(String name) {
+        return repository.findByManagersName(name);
     }
 
     public ShiftPlace createShiftPlace(ShiftPlace shiftPlace) {

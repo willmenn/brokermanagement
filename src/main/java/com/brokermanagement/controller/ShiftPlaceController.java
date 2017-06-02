@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -34,6 +36,12 @@ public class ShiftPlaceController {
     @ResponseStatus(OK)
     public ShiftPlace getShiftPlace(@PathVariable("id") String id) {
         return service.getShiftPlace(id);
+    }
+
+    @RequestMapping(value = "shiftPlace/manager/{name}", method = GET)
+    @ResponseStatus(OK)
+    public List<ShiftPlace> getShiftPlaceByManagerName(@PathVariable("name") String name) {
+        return service.getShiftPlaceByManagersName(name);
     }
 
     @RequestMapping(value = "shiftPlace", method = POST,
