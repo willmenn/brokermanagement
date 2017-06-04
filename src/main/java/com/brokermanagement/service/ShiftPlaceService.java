@@ -37,9 +37,12 @@ public class ShiftPlaceService {
     public ShiftPlace updateShiftPlace(String id, ShiftPlace shiftPlace) {
         if (repository.exists(id)) {
             return repository.save(ShiftPlace.builder()
+                    .shiftPlaceId(id)
                     .name(shiftPlace.getName())
                     .address(shiftPlace.getAddress())
                     .managersName(shiftPlace.getManagersName())
+                    .days(shiftPlace.getDays())
+                    .places(shiftPlace.getPlaces())
                     .build());
         } else {
             throw new ShiftPlaceNotFound("Broker Not Found", id);
