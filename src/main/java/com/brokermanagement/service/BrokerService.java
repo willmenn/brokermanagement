@@ -38,6 +38,7 @@ public class BrokerService {
     public Broker updateBroker(String id, Broker broker) {
         if (brokerRepository.exists(id)) {
             return brokerRepository.save(Broker.builder()
+                    .brokerId(id)
                     .name(broker.getName())
                     .manager(broker.getManager())
                     .preference(broker.getPreference())
