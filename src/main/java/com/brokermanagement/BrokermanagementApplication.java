@@ -10,9 +10,10 @@ public class BrokermanagementApplication extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowedMethods("PUT", "DELETE","POST","GET");
     }
-	
+
 
     public static void main(String[] args) {
         SpringApplication.run(BrokermanagementApplication.class, args);
