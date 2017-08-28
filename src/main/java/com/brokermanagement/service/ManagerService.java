@@ -18,4 +18,8 @@ public class ManagerService {
     public Manager save(Manager manager) {
         return repository.save(manager);
     }
+
+    public Manager get(String manager, String pass) {
+        return repository.findDistinctByManagerAndPassword(manager,pass);
+    }
 }
