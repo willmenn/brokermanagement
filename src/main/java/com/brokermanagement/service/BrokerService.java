@@ -1,5 +1,6 @@
 package com.brokermanagement.service;
 
+import com.brokermanagement.client.ScheduleClient;
 import com.brokermanagement.exception.BrokerNotFound;
 import com.brokermanagement.model.Broker;
 import com.brokermanagement.repository.BrokerRepository;
@@ -7,16 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class BrokerService {
 
     private static final String BROKER_NOT_FOUND = "Broker Not Found";
     private BrokerRepository brokerRepository;
+    private ScheduleClient scheduleClient;
 
     @Autowired
-    public BrokerService(BrokerRepository brokerRepository) {
+    public BrokerService(BrokerRepository brokerRepository, ScheduleClient scheduleClient) {
         this.brokerRepository = brokerRepository;
+        this.scheduleClient = scheduleClient;
     }
 
     public Broker getBroker(String id) {
@@ -46,5 +51,20 @@ public class BrokerService {
         } else {
             throw new BrokerNotFound(BROKER_NOT_FOUND, id);
         }
+    }
+
+    public List<Broker> updateBrokers(String manager, String scheduleId) {
+        List<Broker> brokers = brokerRepository.findByManager(manager);
+        Map<String, List<String>> brokersSchedule = scheduleClient
+                .fetchScheduleForAllBrokers(scheduleId, manager);
+
+        brokers.forEach(broker -> {
+            if(brokersSchedule.containsKey(broker.getName())){
+                broker.setDaysScheduled(brokersSchedule.get(broker.getName()));
+                brokerRepository.save(broker);
+            }
+        });
+
+        return brokers;
     }
 }

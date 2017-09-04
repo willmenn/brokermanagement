@@ -14,6 +14,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 public class ManagerController {
@@ -27,13 +28,19 @@ public class ManagerController {
 
     @RequestMapping(value = "/manager", method = POST, consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public Manager save(@RequestBody Manager manager){
+    public Manager save(@RequestBody Manager manager) {
         return service.save(manager);
     }
 
-    @RequestMapping(value = "manager", method = GET)
+    @RequestMapping(value = "/manager", method = GET)
     @ResponseStatus(OK)
-    public Manager get(@RequestParam String manager, @RequestParam String pass){
-        return service.get(manager,pass);
+    public Manager get(@RequestParam String manager, @RequestParam String pass) {
+        return service.get(manager, pass);
+    }
+
+    @RequestMapping(value = "/manager", method = PUT, consumes = APPLICATION_JSON_VALUE)
+    @ResponseStatus(CREATED)
+    public Manager updateManagerSchedule(@RequestParam String manager, @RequestParam String scheduleId) {
+        return service.updateManagerSchedule(manager, scheduleId);
     }
 }

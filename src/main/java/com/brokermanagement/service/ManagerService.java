@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 public class ManagerService {
 
     private ManagerRepository repository;
+    private BrokerService brokerService;
 
     @Autowired
-    private ManagerService(ManagerRepository repository) {
+    private ManagerService(ManagerRepository repository, BrokerService brokerService) {
         this.repository = repository;
+        this.brokerService = brokerService;
     }
 
     public Manager save(Manager manager) {
@@ -21,5 +23,14 @@ public class ManagerService {
 
     public Manager get(String manager, String pass) {
         return repository.findDistinctByManagerAndPassword(manager,pass);
+    }
+
+    public  Manager updateManagerSchedule(String manager,String scheduleId){
+        Manager managerModel = repository.findAllByManager(manager).stream().findFirst().get();
+        managerModel.setScheduleId(scheduleId);
+
+        brokerService.updateBrokers(manager,scheduleId);
+
+        return save(managerModel);
     }
 }
