@@ -6,6 +6,7 @@ import com.brokermanagement.model.Broker;
 import com.brokermanagement.service.BrokerService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ResourceSupport;
@@ -49,6 +50,12 @@ public class BrokerController {
     @ResponseStatus(OK)
     public List<Broker> getBrokersByManager(@PathVariable("name") String name) {
         return service.getBrokersByManager(name);
+    }
+
+    @RequestMapping(value = "/brokers/manager/{name}/count", method = GET)
+    @ResponseStatus(OK)
+    public BrokersCount getCountOfBrokersByManager(@PathVariable("name") String name) {
+        return new BrokersCount(service.getCountOfBrokersByManager(name));
     }
 
     @RequestMapping(value = "/broker", method = POST, consumes = APPLICATION_JSON_VALUE)
@@ -99,5 +106,12 @@ public class BrokerController {
     static class ErrorMessage extends ResourceSupport {
         private String message;
         private String brokerId;
+    }
+
+    @AllArgsConstructor
+    @Data
+    @Builder
+    public static class BrokersCount {
+        private Integer count;
     }
 }

@@ -59,12 +59,16 @@ public class BrokerService {
                 .fetchScheduleForAllBrokers(scheduleId, manager);
 
         brokers.forEach(broker -> {
-            if(brokersSchedule.containsKey(broker.getName())){
+            if (brokersSchedule.containsKey(broker.getName())) {
                 broker.setDaysScheduled(brokersSchedule.get(broker.getName()));
                 brokerRepository.save(broker);
             }
         });
 
         return brokers;
+    }
+
+    public int getCountOfBrokersByManager(String managerName) {
+        return brokerRepository.countByManager(managerName).intValue();
     }
 }

@@ -3,6 +3,8 @@ package com.brokermanagement.controller;
 import com.brokermanagement.controller.BrokerController.Resource;
 import com.brokermanagement.model.ShiftPlace;
 import com.brokermanagement.service.ShiftPlaceService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +46,12 @@ public class ShiftPlaceController {
         return service.getShiftPlaceByManagersName(name);
     }
 
+    @RequestMapping(value = "shiftPlace/manager/{name}/count", method = GET)
+    @ResponseStatus(OK)
+    public ShiftPlaceCount getCountOfShiftPlaceByManagerName(@PathVariable("name") String name) {
+        return new ShiftPlaceCount(service.getCountOfShiftPlaceByManagersName(name));
+    }
+
     @RequestMapping(value = "shiftPlace", method = POST,
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
@@ -72,5 +80,11 @@ public class ShiftPlaceController {
                 .getShiftPlace(id))
                 .withSelfRel());
         return resource;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public class ShiftPlaceCount {
+        private Integer count;
     }
 }

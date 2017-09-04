@@ -48,4 +48,8 @@ public class ShiftPlaceService {
             throw new ShiftPlaceNotFound("Broker Not Found", id);
         }
     }
+
+    public Integer getCountOfShiftPlaceByManagersName(String name) {
+        return repository.countByManagersName(name).intValue();
+    }
 }
