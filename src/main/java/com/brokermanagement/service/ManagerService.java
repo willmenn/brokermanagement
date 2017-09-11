@@ -1,13 +1,17 @@
 package com.brokermanagement.service;
 
+import com.brokermanagement.exception.ManagerNotFoundException;
 import com.brokermanagement.model.Manager;
 import com.brokermanagement.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static java.lang.String.format;
+
 @Service
 public class ManagerService {
 
+    private static final String MANAGER_NOT_FOUND = "Could not find Manager, for name %s";
     private ManagerRepository repository;
     private BrokerService brokerService;
 
@@ -22,7 +26,12 @@ public class ManagerService {
     }
 
     public Manager get(String manager, String pass) {
-        return repository.findDistinctByManagerAndPassword(manager,pass);
+        Manager managerModel = repository.findDistinctByManagerAndPassword(manager, pass);
+        if(managerModel == null){
+            throw new ManagerNotFoundException(format(MANAGER_NOT_FOUND, manager));
+        }else {
+            return managerModel;
+        }
     }
 
     public  Manager updateManagerSchedule(String manager,String scheduleId){
