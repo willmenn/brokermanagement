@@ -66,8 +66,8 @@ public class ShiftPlaceController {
     @RequestMapping(value = "shiftPlace/{id}", method = PUT,
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public Resource updateShiftPlace(@PathVariable("id") String id, @RequestBody ShiftPlace shiftPlace) {
-        ShiftPlace shiftPlaceCreated = service.updateShiftPlace(id, shiftPlace);
+    public Resource updateShiftPlace(@PathVariable("id") String id, @RequestBody ShiftPlaceDTO shiftPlace) {
+        ShiftPlace shiftPlaceCreated = service.updateShiftPlace(id, shiftPlace.convertToShiftPlace());
         return createResource(shiftPlaceCreated.getShiftPlaceId());
     }
 
