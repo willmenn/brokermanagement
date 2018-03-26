@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -55,8 +57,8 @@ public class ShiftPlaceController {
     @RequestMapping(value = "shiftPlace", method = POST,
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public Resource createShiftPlace(@RequestBody ShiftPlace shiftPlace) {
-        ShiftPlace shiftPlaceCreated = service.createShiftPlace(shiftPlace);
+    public Resource createShiftPlace(@RequestBody ShiftPlaceDTO shiftPlace) {
+        ShiftPlace shiftPlaceCreated = service.createShiftPlace(shiftPlace.convertToShiftPlace());
         return createResource(shiftPlaceCreated.getShiftPlaceId());
     }
 
@@ -86,5 +88,41 @@ public class ShiftPlaceController {
     @AllArgsConstructor
     public class ShiftPlaceCount {
         private Integer count;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public class ShiftPlaceDTO {
+        private String shiftPlaceId;
+        private String name;
+        private String address;
+        private String managersName;
+        private Integer SUN;
+        private Integer MON;
+        private Integer TUE;
+        private Integer WED;
+        private Integer THU;
+        private Integer FRI;
+        private Integer SAT;
+
+        public ShiftPlace convertToShiftPlace(){
+            Map<String,Integer> days = newHashMap();
+            days.put("SUN", SUN);
+            days.put("MON", MON);
+            days.put("TUE", TUE);
+            days.put("WED", WED);
+            days.put("THU", THU);
+            days.put("FRI", FRI);
+            days.put("SAT", SAT);
+
+            return ShiftPlace.builder()
+                    .shiftPlaceId(shiftPlaceId)
+                    .managersName(managersName)
+                    .address(address)
+                    .name(name)
+                    .days(days)
+                    .build();
+        }
+
     }
 }
