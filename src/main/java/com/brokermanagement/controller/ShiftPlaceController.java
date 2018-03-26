@@ -97,23 +97,23 @@ public class ShiftPlaceController {
         private String name;
         private String address;
         private String managersName;
-        private Integer SUN;
-        private Integer MON;
-        private Integer TUE;
-        private Integer WED;
-        private Integer THU;
-        private Integer FRI;
-        private Integer SAT;
+        private String SUN;
+        private String MON;
+        private String TUE;
+        private String WED;
+        private String THU;
+        private String FRI;
+        private String SAT;
 
         public ShiftPlace convertToShiftPlace(){
             Map<String,Integer> days = newHashMap();
-            days.put("SUN", SUN);
-            days.put("MON", MON);
-            days.put("TUE", TUE);
-            days.put("WED", WED);
-            days.put("THU", THU);
-            days.put("FRI", FRI);
-            days.put("SAT", SAT);
+            days.put("SUN", Integer.parseInt(SUN));
+            days.put("MON", Integer.parseInt(MON));
+            days.put("TUE", Integer.parseInt(TUE));
+            days.put("WED", Integer.parseInt(WED));
+            days.put("THU", Integer.parseInt(THU));
+            days.put("FRI", Integer.parseInt(FRI));
+            days.put("SAT", Integer.parseInt(SAT));
 
             return ShiftPlace.builder()
                     .shiftPlaceId(shiftPlaceId)
