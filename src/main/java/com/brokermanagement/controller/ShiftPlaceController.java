@@ -5,6 +5,7 @@ import com.brokermanagement.model.ShiftPlace;
 import com.brokermanagement.service.ShiftPlaceService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -92,7 +93,8 @@ public class ShiftPlaceController {
 
     @Data
     @AllArgsConstructor
-    public class ShiftPlaceDTO {
+    @NoArgsConstructor
+    public static class ShiftPlaceDTO {
         private String shiftPlaceId;
         private String name;
         private String address;
