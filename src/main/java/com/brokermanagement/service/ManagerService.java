@@ -35,10 +35,10 @@ public class ManagerService {
     }
 
     public  Manager updateManagerSchedule(String manager,String scheduleId){
-        Manager managerModel = repository.findAllByManager(manager).stream().findFirst().get();
+        Manager managerModel = repository.findByManager(manager).stream().findFirst().get();
         managerModel.setScheduleId(scheduleId);
 
-        brokerService.updateBrokers(manager,scheduleId);
+//        brokerService.updateBrokers(manager,scheduleId);
 
         return save(managerModel);
     }
