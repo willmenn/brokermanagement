@@ -1,13 +1,11 @@
 package com.brokermanagement.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -23,4 +21,8 @@ public class ShiftPlace {
     private String places;
     private String managersName;
     private Map<String, Integer> days;
+
+    @NotNull
+    Map<DayEnum, Shift> daysV3;
+
 }

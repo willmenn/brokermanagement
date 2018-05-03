@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,4 +24,5 @@ public class Broker {
     private Preferences preference;
     @Setter
     private List<String> daysScheduled;
+    private Map<Constraint, List<String>> constraints;
 }

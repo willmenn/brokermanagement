@@ -1,8 +1,11 @@
 package com.brokermanagement.controller;
 
 import com.brokermanagement.controller.BrokerController.Resource;
+import com.brokermanagement.model.DayEnum;
+import com.brokermanagement.model.Shift;
 import com.brokermanagement.model.ShiftPlace;
 import com.brokermanagement.service.ShiftPlaceService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -99,32 +102,40 @@ public class ShiftPlaceController {
         private String name;
         private String address;
         private String managersName;
-        private String SUN;
-        private String MON;
-        private String TUE;
-        private String WED;
-        private String THU;
-        private String FRI;
-        private String SAT;
+        private Shift SUN;
+        private Shift MON;
+        private Shift TUE;
+        private Shift WED;
+        private Shift THU;
+        private Shift FRI;
+        private Shift SAT;
 
-        public ShiftPlace convertToShiftPlace(){
-            Map<String,Integer> days = newHashMap();
-            days.put("SUN", Integer.parseInt(SUN));
-            days.put("MON", Integer.parseInt(MON));
-            days.put("TUE", Integer.parseInt(TUE));
-            days.put("WED", Integer.parseInt(WED));
-            days.put("THU", Integer.parseInt(THU));
-            days.put("FRI", Integer.parseInt(FRI));
-            days.put("SAT", Integer.parseInt(SAT));
+        @JsonIgnore
+        public ShiftPlace convertToShiftPlace() {
+            Map<DayEnum, Shift> days = newHashMap();
+            addToMap(DayEnum.SUN, SUN, days);
+            addToMap(DayEnum.MON, MON, days);
+            addToMap(DayEnum.TUE, TUE, days);
+            addToMap(DayEnum.WED, WED, days);
+            addToMap(DayEnum.THU, THU, days);
+            addToMap(DayEnum.FRI, FRI, days);
+            addToMap(DayEnum.SAT, SAT, days);
 
             return ShiftPlace.builder()
                     .shiftPlaceId(shiftPlaceId)
                     .managersName(managersName)
                     .address(address)
                     .name(name)
-                    .days(days)
+                    .daysV3(days)
                     .build();
         }
 
+        private void addToMap(DayEnum day, Shift shift, Map<DayEnum, Shift> days) {
+            if (shift != null && shift.isNotNull()) {
+                days.put(day, shift);
+            }
+        }
+
     }
+
 }
