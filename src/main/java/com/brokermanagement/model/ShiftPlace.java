@@ -25,4 +25,12 @@ public class ShiftPlace {
     @NotNull
     Map<DayEnum, Shift> daysV3;
 
+
+    public String getPlaces() {
+        int sum = this.getDaysV3().values().stream()
+                .mapToInt(sp -> sp.getAfternoon() + sp.getMorning() + sp.getNight())
+                .sum();
+
+        return String.valueOf(sum);
+    }
 }
