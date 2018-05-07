@@ -25,4 +25,9 @@ public class Broker {
     @Setter
     private List<String> daysScheduled;
     private Map<Constraint, List<String>> constraints;
+
+    public String getQtdConstraints() {
+        int sum = this.constraints.values().stream().mapToInt(value -> value.size()).sum();
+        return String.valueOf(sum);
+    }
 }
