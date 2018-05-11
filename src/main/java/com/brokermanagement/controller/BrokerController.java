@@ -10,12 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ResourceSupport;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,6 +39,13 @@ public class BrokerController {
     @ResponseStatus(OK)
     public Broker getBroker(@PathVariable("id") String id) {
         return service.getBroker(id);
+    }
+
+    @RequestMapping(value = "/broker", method = GET)
+    @ResponseStatus(OK)
+    public Broker getBrokerByNameAndPassword(@RequestParam("name") String name,
+                                             @RequestParam("password") String password) {
+        return service.getBrokerByPassword(name, password);
     }
 
     @RequestMapping(value = "/brokers/manager/{name}", method = GET)

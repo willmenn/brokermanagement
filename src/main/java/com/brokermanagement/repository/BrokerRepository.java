@@ -11,5 +11,7 @@ public interface BrokerRepository extends MongoRepository<Broker, String> {
 
     List<Broker> findByManager(String manager);
 
+    Broker findByNameAndPassword(String name,String password);
+
     Long countByManager(String name);
 }

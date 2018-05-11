@@ -28,6 +28,10 @@ public class BrokerService {
         return brokerRepository.findOne(id);
     }
 
+    public Broker getBrokerByPassword(String name, String password) {
+        return brokerRepository.findByNameAndPassword(name, password);
+    }
+
     public List<Broker> getBrokersByManager(String managerName) {
         return brokerRepository.findByManager(managerName);
     }

@@ -22,6 +22,7 @@ public class Broker {
     private String name;
     private String manager;
     private Preferences preference;
+    private String password;
     @Setter
     private List<String> daysScheduled;
     private Map<Constraint, List<String>> constraints;
