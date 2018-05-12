@@ -28,7 +28,11 @@ public class Broker {
     private Map<Constraint, List<String>> constraints;
 
     public String getQtdConstraints() {
-        int sum = this.constraints.values().stream().mapToInt(value -> value.size()).sum();
-        return String.valueOf(sum);
+        if (this.constraints == null) {
+            return "0";
+        } else {
+            int sum = this.constraints.values().stream().mapToInt(value -> value.size()).sum();
+            return String.valueOf(sum);
+        }
     }
 }
