@@ -6,6 +6,8 @@ import com.brokermanagement.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static java.lang.String.format;
 
 @Service
@@ -27,14 +29,24 @@ public class ManagerService {
 
     public Manager get(String manager, String pass) {
         Manager managerModel = repository.findDistinctByManagerAndPassword(manager, pass);
-        if(managerModel == null){
+        if (managerModel == null) {
             throw new ManagerNotFoundException(format(MANAGER_NOT_FOUND, manager));
-        }else {
+        } else {
             return managerModel;
         }
     }
 
-    public  Manager updateManagerSchedule(String manager,String scheduleId){
+    public Manager get(String manager) {
+        List<Manager> managerModel = repository.findByManager(manager);
+        if (managerModel == null) {
+            throw new ManagerNotFoundException(format(MANAGER_NOT_FOUND, manager));
+        } else {
+            return managerModel.stream().findFirst()
+                    .orElseThrow(() -> new RuntimeException("Could Not find Manager"));
+        }
+    }
+
+    public Manager updateManagerSchedule(String manager, String scheduleId) {
         Manager managerModel = repository.findByManager(manager).stream().findFirst().get();
         managerModel.setScheduleId(scheduleId);
 

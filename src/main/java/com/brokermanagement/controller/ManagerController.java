@@ -2,12 +2,17 @@ package com.brokermanagement.controller;
 
 import com.brokermanagement.model.Manager;
 import com.brokermanagement.service.ManagerService;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.AssertTrue;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -38,9 +43,22 @@ public class ManagerController {
         return service.get(manager, pass);
     }
 
+    @RequestMapping(value = "/manager/schedule", method = GET)
+    @ResponseStatus(OK)
+    public ManagerScheduleId getScheduleId(@RequestParam String manager) {
+        return ManagerScheduleId.builder().scheduleId(service.get(manager).getScheduleId()).build();
+    }
+
     @RequestMapping(value = "/manager", method = PUT, consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public Manager updateManagerSchedule(@RequestParam String manager, @RequestParam String scheduleId) {
         return service.updateManagerSchedule(manager, scheduleId);
+    }
+
+    @AllArgsConstructor
+    @Data
+    @Builder
+    private static class ManagerScheduleId {
+        private String scheduleId;
     }
 }
