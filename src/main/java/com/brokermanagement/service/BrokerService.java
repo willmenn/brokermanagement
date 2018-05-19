@@ -57,21 +57,6 @@ public class BrokerService {
         }
     }
 
-    public List<Broker> updateBrokers(String manager, String scheduleId) {
-        List<Broker> brokers = brokerRepository.findByManager(manager);
-        Map<String, List<String>> brokersSchedule = scheduleClient
-                .fetchScheduleForAllBrokers(scheduleId, manager);
-
-        brokers.forEach(broker -> {
-            if (brokersSchedule.containsKey(broker.getName())) {
-                broker.setDaysScheduled(brokersSchedule.get(broker.getName()));
-                brokerRepository.save(broker);
-            }
-        });
-
-        return brokers;
-    }
-
     public int getCountOfBrokersByManager(String managerName) {
         return brokerRepository.countByManager(managerName).intValue();
     }
