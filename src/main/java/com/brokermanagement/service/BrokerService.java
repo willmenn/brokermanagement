@@ -16,12 +16,10 @@ public class BrokerService {
 
     private static final String BROKER_NOT_FOUND = "Broker Not Found";
     private BrokerRepository brokerRepository;
-    private ScheduleClient scheduleClient;
 
     @Autowired
-    public BrokerService(BrokerRepository brokerRepository, ScheduleClient scheduleClient) {
+    public BrokerService(BrokerRepository brokerRepository) {
         this.brokerRepository = brokerRepository;
-        this.scheduleClient = scheduleClient;
     }
 
     public Broker getBroker(String id) {
