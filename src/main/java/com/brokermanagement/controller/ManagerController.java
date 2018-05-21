@@ -6,20 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.AssertTrue;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 public class ManagerController {
@@ -41,6 +35,19 @@ public class ManagerController {
     @ResponseStatus(OK)
     public Manager get(@RequestParam String manager, @RequestParam String pass) {
         return service.get(manager, pass);
+    }
+
+
+    @RequestMapping(value = "/manager/messages", method = GET)
+    @ResponseStatus(OK)
+    public List<Manager.Message> getMessagesByManager(@RequestParam String manager) {
+        return service.getMessagesByManger(manager);
+    }
+
+    @RequestMapping(value = "/manager/messages", method = POST)
+    @ResponseStatus(OK)
+    public List<Manager.Message> createMessagesByManager(@RequestParam String manager, @RequestParam String message) {
+        return service.createMessage(manager, message);
     }
 
     @RequestMapping(value = "/manager/schedule", method = GET)

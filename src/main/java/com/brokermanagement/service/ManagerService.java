@@ -2,13 +2,18 @@ package com.brokermanagement.service;
 
 import com.brokermanagement.exception.ManagerNotFoundException;
 import com.brokermanagement.model.Manager;
+import com.brokermanagement.model.Manager.Message;
 import com.brokermanagement.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.Comparator.comparing;
 
 @Service
 public class ManagerService {
@@ -53,5 +58,21 @@ public class ManagerService {
 //        brokerService.updateBrokers(manager,scheduleId);
 
         return save(managerModel);
+    }
+
+    public List<Message> getMessagesByManger(String manager) {
+        return get(manager).getMessages().stream()
+                .sorted(comparing(Message::getCreatedTimestamp).reversed())
+                .collect(Collectors.toList())
+                .subList(0,10);
+    }
+
+    public List<Message> createMessage(String managerName, String message) {
+        Manager manager = get(managerName);
+        manager.getMessages().add(Message.builder().message(message)
+                .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
+                .build());
+        return save(manager).getMessages();
+
     }
 }
