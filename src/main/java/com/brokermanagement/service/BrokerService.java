@@ -1,6 +1,5 @@
 package com.brokermanagement.service;
 
-import com.brokermanagement.client.ScheduleClient;
 import com.brokermanagement.exception.BrokerNotFound;
 import com.brokermanagement.model.Broker;
 import com.brokermanagement.repository.BrokerRepository;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -35,7 +33,12 @@ public class BrokerService {
     }
 
     public Broker createBroker(Broker broker) {
-        return brokerRepository.save(broker);
+        List<Broker> byName = brokerRepository.findByName(broker.getName());
+       if(byName.isEmpty()) {
+           return brokerRepository.save(broker);
+       }else {
+           throw new RuntimeException("Broker not unique.");
+       }
     }
 
     public void delete(String id) {
