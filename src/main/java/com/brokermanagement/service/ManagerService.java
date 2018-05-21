@@ -70,15 +70,19 @@ public class ManagerService {
                     .sorted(comparing(Message::getCreatedTimestamp).reversed())
                     .collect(Collectors.toList())
                     .subList(0, 10);
-            }
-        }
-
-        public List<Message> createMessage (String managerName, String message){
-            Manager manager = get(managerName);
-            manager.getMessages().add(Message.builder().message(message)
-                    .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
-                    .build());
-            return save(manager).getMessages();
-
         }
     }
+
+    public List<Message> createMessage(String managerName, String message) {
+        Manager manager = get(managerName);
+        List<Message> messages = manager.getMessages();
+        if (messages == null) {
+            messages = newArrayList();
+        }
+        messages.add(Message.builder().message(message)
+                .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
+                .build());
+        return save(manager).getMessages();
+
+    }
+}
