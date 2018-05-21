@@ -66,10 +66,15 @@ public class ManagerService {
         if (messages == null) {
             return newArrayList();
         } else {
-            return messages.stream()
+            List<Message> response = newArrayList();
+            List<Message> collect = messages.stream()
                     .sorted(comparing(Message::getCreatedTimestamp).reversed())
-                    .collect(Collectors.toList())
-                    .subList(0, 10);
+                    .collect(Collectors.toList());
+            int length = collect.size() > 10 ? 10 : collect.size();
+            for (int i = 0; i < length; i++) {
+                response.add(collect.get(i));
+            }
+            return response;
         }
     }
 
