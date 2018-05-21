@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.format;
 import static java.util.Comparator.comparing;
 
@@ -61,18 +62,23 @@ public class ManagerService {
     }
 
     public List<Message> getMessagesByManger(String manager) {
-        return get(manager).getMessages().stream()
-                .sorted(comparing(Message::getCreatedTimestamp).reversed())
-                .collect(Collectors.toList())
-                .subList(0,10);
-    }
+        List<Message> messages = get(manager).getMessages();
+        if (messages == null) {
+            return newArrayList();
+        } else {
+            return messages.stream()
+                    .sorted(comparing(Message::getCreatedTimestamp).reversed())
+                    .collect(Collectors.toList())
+                    .subList(0, 10);
+            }
+        }
 
-    public List<Message> createMessage(String managerName, String message) {
-        Manager manager = get(managerName);
-        manager.getMessages().add(Message.builder().message(message)
-                .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
-                .build());
-        return save(manager).getMessages();
+        public List<Message> createMessage (String managerName, String message){
+            Manager manager = get(managerName);
+            manager.getMessages().add(Message.builder().message(message)
+                    .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
+                    .build());
+            return save(manager).getMessages();
 
+        }
     }
-}
