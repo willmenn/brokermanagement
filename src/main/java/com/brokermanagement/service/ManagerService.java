@@ -66,16 +66,21 @@ public class ManagerService {
         if (messages == null) {
             return newArrayList();
         } else {
-            List<Message> response = newArrayList();
-            List<Message> collect = messages.stream()
-                    .sorted(comparing(Message::getCreatedTimestamp).reversed())
-                    .collect(Collectors.toList());
-            int length = collect.size() > 10 ? 10 : collect.size();
-            for (int i = 0; i < length; i++) {
-                response.add(collect.get(i));
-            }
+            List<Message> response = sortMessages(messages);
             return response;
         }
+    }
+
+    private List<Message> sortMessages(List<Message> messages) {
+        List<Message> response = newArrayList();
+        List<Message> collect = messages.stream()
+                .sorted(comparing(Message::getCreatedTimestamp).reversed())
+                .collect(Collectors.toList());
+        int length = collect.size() > 10 ? 10 : collect.size();
+        for (int i = 0; i < length; i++) {
+            response.add(collect.get(i));
+        }
+        return response;
     }
 
     public List<Message> createMessage(String managerName, String message) {
@@ -87,13 +92,13 @@ public class ManagerService {
         messages.add(Message.builder().message(message)
                 .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
                 .build());
-        return save(Manager.builder()
+        return sortMessages(save(Manager.builder()
                 .id(manager.getId())
                 .password(manager.getPassword())
                 .scheduleId(manager.getScheduleId())
                 .messages(messages)
                 .manager(manager.getManager())
-                .build()).getMessages();
+                .build()).getMessages());
 
     }
 }
