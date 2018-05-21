@@ -87,6 +87,7 @@ public class ManagerService {
                 .password(manager.getPassword())
                 .scheduleId(manager.getScheduleId())
                 .messages(messages)
+                .manager(manager.getManager())
                 .build()).getMessages();
 
     }
