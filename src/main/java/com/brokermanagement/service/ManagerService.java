@@ -82,7 +82,12 @@ public class ManagerService {
         messages.add(Message.builder().message(message)
                 .createdTimestamp(LocalDateTime.now(Clock.systemDefaultZone()))
                 .build());
-        return save(manager).getMessages();
+        return save(Manager.builder()
+                .id(manager.getId())
+                .password(manager.getPassword())
+                .scheduleId(manager.getScheduleId())
+                .messages(messages)
+                .build()).getMessages();
 
     }
 }
